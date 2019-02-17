@@ -36,11 +36,14 @@ public class Main {
      */
     private static void sendTo(String data) throws IOException{
         byte[] message = data.getBytes();
-        Socket socket = new Socket(InetAddress.getByName("ESP8266"), 80);
+        try {
+            Socket socket = new Socket(InetAddress.getByName("ESP8266"), 80);
+            DataOutputStream output = new DataOutputStream(socket.getOutputStream());
 
-        DataOutputStream output = new DataOutputStream(socket.getOutputStream());
-
-        output.write(message);
+            output.write(message);
+        } catch (Exception e){
+            System.err.println("ESP8266 cannot be connected to");
+        }
     }
 
     /**
